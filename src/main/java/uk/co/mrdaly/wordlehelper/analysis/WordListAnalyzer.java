@@ -1,40 +1,15 @@
 package uk.co.mrdaly.wordlehelper.analysis;
 
 import org.springframework.stereotype.Component;
-import uk.co.mrdaly.wordlehelper.service.WordFrequencyScorer;
-import uk.co.mrdaly.wordlehelper.service.Wordlist;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
 public class WordListAnalyzer {
-
-    private final WordFrequencyScorer wordFrequencyScorer;
-
-    public WordListAnalyzer(Wordlist wordlist, WordFrequencyScorer wordFrequencyScorer) {
-        this.wordFrequencyScorer = wordFrequencyScorer;
-    }
-
-    public List<WordWithFrequency> sort(List<String> possibilities) {
-        final Map<String, Integer> letterFrequencies = getLetterFrequencies(possibilities);
-
-        return possibilities.stream()
-                .map(word -> scoreWord(word, letterFrequencies))
-                .sorted(Comparator.comparing(WordWithFrequency::getScore))
-//                .map(WordWithFrequency::getWord)
-                .collect(Collectors.toList());
-    }
-
-    private Map<String, Integer> getLetterFrequencies(List<String> possibilities) {
-        Map<String, Integer> map = new HashMap<>();
-        for (String word : possibilities) {
-            for (String letter : word.split("")) {
-                map.merge(letter, 1, Integer::sum);
-            }
-        }
-        return map;
-    }
 
     public String getNextBestGuess(List<String> possiblities, String wordRegex) {
         if (wordRegex.matches("[a-z]{5}")) {
@@ -67,6 +42,17 @@ public class WordListAnalyzer {
 
     }
 
+    private Map<String, Integer> getLetterFrequencies(List<String> possibilities) {
+        Map<String, Integer> map = new HashMap<>();
+        for (String word : possibilities) {
+            for (String letter : word.split("")) {
+                map.merge(letter, 1, Integer::sum);
+            }
+        }
+        return map;
+    }
+
+
     private WordWithFrequency getMostFrequentLetterInPosition(int i, List<String> possibilities) {
 
         List<String> lettersAtI = possibilities.stream()
@@ -78,14 +64,6 @@ public class WordListAnalyzer {
                 .max(Comparator.comparing(Map.Entry::getValue))
                 .map(entry -> new WordWithFrequency(entry.getKey(), entry.getValue()))
                 .orElse(null);
-    }
-
-
-
-    private WordWithFrequency scoreWord(String word, Map<String, Integer> frequencyMap) {
-        double d = wordFrequencyScorer.calculateFrequencyScore(word);
-
-        return new WordWithFrequency(word, d);
     }
 
     public static class WordWithFrequency {

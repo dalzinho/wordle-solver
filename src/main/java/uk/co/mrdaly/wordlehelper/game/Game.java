@@ -2,7 +2,6 @@ package uk.co.mrdaly.wordlehelper.game;
 
 import org.springframework.stereotype.Service;
 import uk.co.mrdaly.wordlehelper.analysis.WordListAnalyzer;
-import uk.co.mrdaly.wordlehelper.service.WordFrequencyScorer;
 import uk.co.mrdaly.wordlehelper.service.Wordlist;
 import uk.co.mrdaly.wordlehelper.ui.InputCollector;
 import uk.co.mrdaly.wordlehelper.ui.Output;
@@ -13,14 +12,13 @@ import java.util.List;
 public class Game {
 
     private final Wordlist wordlist;
-    private final WordFrequencyScorer wordFrequencyScorer;
+
     private final WordListAnalyzer wordListAnalyzer;
     private final InputCollector sysInputCollector;
     private final Output sysOutput;
 
-    public Game(Wordlist wordlist, WordFrequencyScorer wordFrequencyScorer, WordListAnalyzer wordListAnalyzer, InputCollector sysInputCollector, Output sysOutput) {
+    public Game(Wordlist wordlist, WordListAnalyzer wordListAnalyzer, InputCollector sysInputCollector, Output sysOutput) {
         this.wordlist = wordlist;
-        this.wordFrequencyScorer = wordFrequencyScorer;
         this.wordListAnalyzer = wordListAnalyzer;
         this.sysInputCollector = sysInputCollector;
         this.sysOutput = sysOutput;
