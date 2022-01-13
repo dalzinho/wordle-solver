@@ -45,9 +45,10 @@ public class WordFrequencyScorer {
 
     public double calculateFrequencyScore(String word) {
         return Arrays.stream(word.split(""))
+                .distinct()
                 .map(String::toUpperCase)
                 .mapToDouble(frequencyScoreMap::get)
-                .map(d -> applyVarianceWeighting(word, d))
+//                .map(d -> applyVarianceWeighting(word, d))
                 .sum();
     }
 
