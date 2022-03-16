@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "starters",
+      "type": "java.lang.String",
+      "description": "Description for starters."
+  }
+] }

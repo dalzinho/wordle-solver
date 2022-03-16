@@ -1,42 +1,26 @@
 package uk.co.mrdaly.wordlehelper.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.stereotype.Component;
 import uk.co.mrdaly.wordlehelper.guess.CorrectGuess;
 import uk.co.mrdaly.wordlehelper.guess.Guess;
 import uk.co.mrdaly.wordlehelper.guess.InexactGuess;
 
-import javax.annotation.PostConstruct;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Component
 @Slf4j
-public class Wordlist {
+public class WordMatcher {
 
     Set<String> wrongGuesses;
     Map<String, Integer> letterAppearance;
     Guess[] regexPattern = new Guess[]{null, null, null, null, null};
-    private List<String> words;
+    private final List<String> words;
 
-    public Wordlist() {
+    public WordMatcher(List<String> words) {
+        this.words = words;
         wrongGuesses = new HashSet<>();
-    }
-
-    @PostConstruct
-    public void init() {
-        try (InputStream inputStream = new ClassPathResource("wordle-dictionary.txt").getInputStream();
-             BufferedReader r = new BufferedReader(new InputStreamReader(inputStream))) {
-            words = r.lines()
-                    .collect(Collectors.toList());
-        } catch (IOException e) {
-            log.error("error loading wordList", e);
-        }
     }
 
     public List<String> getMatches(String guess, String response) {

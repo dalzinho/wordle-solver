@@ -4,5 +4,5 @@ public interface InputCollector {
 
     String collectGuess();
 
-    String collectWordleResponse();
+    String collectWordleResponse(String guess);
 }

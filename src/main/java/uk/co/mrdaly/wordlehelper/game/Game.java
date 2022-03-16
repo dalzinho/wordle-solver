@@ -1,51 +1,66 @@
 package uk.co.mrdaly.wordlehelper.game;
 
-import org.springframework.stereotype.Service;
 import uk.co.mrdaly.wordlehelper.analysis.WordListAnalyzer;
-import uk.co.mrdaly.wordlehelper.service.Wordlist;
+import uk.co.mrdaly.wordlehelper.service.WordMatcher;
 import uk.co.mrdaly.wordlehelper.ui.InputCollector;
 import uk.co.mrdaly.wordlehelper.ui.Output;
 
 import java.util.List;
 
-@Service
 public class Game {
 
-    private final Wordlist wordlist;
-
+    private final WordMatcher wordMatcher;
     private final WordListAnalyzer wordListAnalyzer;
     private final InputCollector sysInputCollector;
     private final Output sysOutput;
+    private final List<String> words;
 
-    public Game(Wordlist wordlist, WordListAnalyzer wordListAnalyzer, InputCollector sysInputCollector, Output sysOutput) {
-        this.wordlist = wordlist;
+
+    public Game(WordMatcher wordMatcher,
+                WordListAnalyzer wordListAnalyzer,
+                InputCollector sysInputCollector,
+                Output sysOutput,
+                List<String> words) {
+        this.wordMatcher = wordMatcher;
         this.wordListAnalyzer = wordListAnalyzer;
         this.sysInputCollector = sysInputCollector;
         this.sysOutput = sysOutput;
+        this.words = words;
     }
 
-    public void run() {
+    public int run(String guessFromArgs) {
+        int guessCount = 0;
         boolean run = true;
-
-        String guess = null;
+        String guess = guessFromArgs;
 
         while (run) {
+            guessCount++;
             if (guess == null) {
-                guess = sysInputCollector.collectGuess();
+                guess = wordListAnalyzer.getNextBestGuess(words, ".....");
             }
+            sysOutput.send("Guess is: " + guess);
+
 
             if (guess.matches("[0-9]+")) {
                 int i = Integer.parseInt(guess);
-                sysOutput.send(wordlist.getByIndex(i));
+                sysOutput.send(wordMatcher.getByIndex(i));
                 break;
             }
 
-            final String response = sysInputCollector.collectWordleResponse();
+            final String response = sysInputCollector.collectWordleResponse(guess);
 
-            List<String> answers = wordlist.getMatches(guess, response);
+            List<String> answers = wordMatcher.getMatches(guess, response);
             guess = wordListAnalyzer.getNextBestGuess(answers, ".....");
-            System.out.println(guess);
-            run = (answers.size() > 1);
+
+
+            if (answers.size() <= 1) {
+                if (!answers.get(0).equals(guess)) {
+                    guessCount++;
+                }
+                run = false;
+            }
         }
+        sysOutput.send("The only possible answer remaining is: " + guess + ". This would score " + guessCount);
+        return guessCount;
     }
 }

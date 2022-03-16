@@ -34,7 +34,7 @@ public class SysInputCollector implements InputCollector {
     
 
     @Override
-    public String collectWordleResponse() {
+    public String collectWordleResponse(String guess) {
         sysOutput.send("enter response: g for green, y for yellow, b for black");
         String respnse;
         
