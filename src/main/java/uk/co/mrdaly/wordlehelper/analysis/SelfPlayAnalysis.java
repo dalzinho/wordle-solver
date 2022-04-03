@@ -43,6 +43,7 @@ public class SelfPlayAnalysis {
             if (future.isDone()) {
                 try {
                     final Map<String, Integer> stringIntegerMap = future.get();
+                    log.info(stringIntegerMap.toString());
                     for (Map.Entry<String, Integer> entry : stringIntegerMap.entrySet()) {
                         map.putIfAbsent(entry.getKey(), new ArrayList<>());
                         map.get(entry.getKey()).add(entry.getValue());

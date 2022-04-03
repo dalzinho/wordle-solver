@@ -1,13 +1,11 @@
 package uk.co.mrdaly.wordlehelper;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import uk.co.mrdaly.wordlehelper.analysis.ScrabbleValueBasedTolerance;
+import uk.co.mrdaly.wordlehelper.analysis.frequency.ScrabbleValueBasedTolerance;
 import uk.co.mrdaly.wordlehelper.analysis.SelfPlayAnalysis;
 import uk.co.mrdaly.wordlehelper.game.Game;
 
@@ -31,13 +29,10 @@ public class WordlehelperApplication implements CommandLineRunner {
     private final List<String> words;
     private final ScrabbleValueBasedTolerance scrabbleValueBasedTolerance;
 
-    private List<String> firstGuess = Arrays.asList("blurt");
-    private List<String> definiteKnownIncorrect = Arrays.asList("e", "r", "t", "u", "o", "a", "s", "d", "g", "l", "v", "b");
-    private List<String> knownYellows = Arrays.asList("w");
-    private String greenRegex = "..i..";
-//
+    private List<String> firstGuess = Arrays.asList("crane");
 
-    @Value("${calculate-mode:false}")
+
+//    @Value("${calculate-mode:false}")
     private boolean calculateModeEnabled;
 
     public WordlehelperApplication(Game game, SelfPlayAnalysis selfPlayAnalysis, List<String> words, ScrabbleValueBasedTolerance scrabbleValueBasedTolerance) {

@@ -23,16 +23,16 @@ public class BeanConfiguration {
 
     @Bean
     public Game guessingGame(WordMatcher wordMatcher,
-                             WordListAnalyzer wordListAnalyzer,
+                             WordListAnalyzer entropyBasedWordListAnalyzer,
                              InputCollector sysInputCollector,
                              Output sysOutput,
                              List<String> words) {
-        return new Game(wordMatcher, wordListAnalyzer, sysInputCollector, sysOutput, words);
+        return new Game(wordMatcher, entropyBasedWordListAnalyzer, sysInputCollector, sysOutput, words);
     }
 
     @Bean
-    public WordMatcher wordMatcher(List<String> words) {
-        return new WordMatcher(words);
+    public WordMatcher wordMatcher() {
+        return new WordMatcher();
     }
 
     @Bean

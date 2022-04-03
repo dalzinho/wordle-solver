@@ -16,14 +16,12 @@ public class WordMatcher {
     Set<String> wrongGuesses;
     Map<String, Integer> letterAppearance;
     Guess[] regexPattern = new Guess[]{null, null, null, null, null};
-    private final List<String> words;
 
-    public WordMatcher(List<String> words) {
-        this.words = words;
+    public WordMatcher() {
         wrongGuesses = new HashSet<>();
     }
 
-    public List<String> getMatches(String guess, String response) {
+    public List<String> getMatches(List<String> words, String guess, String response) {
         letterAppearance = new HashMap<>();
 
         for (int i = 0; i < response.length(); i++) {
@@ -55,7 +53,7 @@ public class WordMatcher {
 
         wrongGuesses.removeAll(letterAppearance.keySet());
 
-        return getMatches();
+        return getMatches(words);
     }
 
 
@@ -70,7 +68,7 @@ public class WordMatcher {
         return sb.toString();
     }
 
-    public List<String> getMatches() {
+    public List<String> getMatches(List<String> words) {
         return words.stream()
                 .filter(this::doesNotContainAWrongGuess)
                 .filter(this::matchesRegexPattern)
@@ -95,9 +93,4 @@ public class WordMatcher {
         return letterAppearance.entrySet().stream()
                 .allMatch(entry -> count.getOrDefault(entry.getKey(), 0) >= entry.getValue());
     }
-
-    public String getByIndex(int i) {
-        return words.get(i);
-    }
-
 }
