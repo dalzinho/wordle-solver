@@ -29,6 +29,7 @@ public class Game {
     }
 
     public int run(String guessFromArgs) {
+        List<String> answers = words;
         int guessCount = 0;
         boolean run = true;
         String guess = guessFromArgs;
@@ -40,16 +41,9 @@ public class Game {
             }
             sysOutput.send("Guess is: " + guess);
 
-
-            if (guess.matches("[0-9]+")) {
-                int i = Integer.parseInt(guess);
-                sysOutput.send(wordMatcher.getByIndex(i));
-                break;
-            }
-
             final String response = sysInputCollector.collectWordleResponse(guess);
 
-            List<String> answers = wordMatcher.getMatches(guess, response);
+            answers = wordMatcher.getMatches(answers, guess, response);
             guess = wordListAnalyzer.getNextBestGuess(answers, ".....");
 
 
@@ -57,6 +51,7 @@ public class Game {
                 if (!answers.get(0).equals(guess)) {
                     guessCount++;
                 }
+                guess = answers.get(0);
                 run = false;
             }
         }

@@ -1,4 +1,4 @@
-package uk.co.mrdaly.wordlehelper.analysis;
+package uk.co.mrdaly.wordlehelper.analysis.frequency;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
