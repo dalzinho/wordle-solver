@@ -51,9 +51,9 @@ public class EntropyBasedWordListAnalyzer implements WordListAnalyzer {
 
         for (String s : wordleResponse.split("")) {
             if (s.equals("y")) {
-                i += 1;
-            } else if (s.equals("g")) {
                 i += 2;
+            } else if (s.equals("g")) {
+                i += 5;
             }
         }
 
