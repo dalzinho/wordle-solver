@@ -24,7 +24,7 @@ public class SelfPlayCallable implements Callable<Map<String, Integer>> {
         Map<String, Integer> map = new HashMap<>();
 
         for (String firstGuess : words) {
-            final int guessCount = analysisGameFactory.get(word).run(firstGuess);
+            final int guessCount = analysisGameFactory.get(word).run(firstGuess, words, 1);
             map.put(firstGuess, guessCount);
         }
 

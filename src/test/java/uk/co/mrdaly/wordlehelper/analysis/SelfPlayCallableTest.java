@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 public class SelfPlayCallableTest {
 
     private List<String> allWords;
-    private List<String> validAnswers;
     private AnalysisGameFactory analysisGameFactory;
 
     public SelfPlayCallableTest() {
@@ -33,15 +32,13 @@ public class SelfPlayCallableTest {
         ) {
             allWords = r.lines()
                     .collect(Collectors.toList());
-            validAnswers = r2.lines()
-                    .collect(Collectors.toList());
         } catch (IOException e) {
             log.error("error loading wordList", e);
         }
 
         WordFrequencyScorer wordFrequencyScorer = new WordFrequencyScorer();
         WordListAnalyzer wordListAnalyzer = new FrequencyBasedWordListAnalyzer(wordFrequencyScorer);
-        analysisGameFactory = new AnalysisGameFactory(wordListAnalyzer, new NullOutput(), allWords);
+        analysisGameFactory = new AnalysisGameFactory(wordListAnalyzer, new NullOutput());
     }
 
     @Test

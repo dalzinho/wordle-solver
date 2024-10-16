@@ -15,7 +15,7 @@ public class SelfInputCollector implements InputCollector {
     }
 
     @Override
-    public String collectGuess() {
+    public String collectGuess(String whatever) {
         return null;
     }
 

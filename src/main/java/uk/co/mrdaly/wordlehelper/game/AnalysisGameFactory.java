@@ -13,15 +13,13 @@ public class AnalysisGameFactory {
 
     private final WordListAnalyzer wordListAnalyzer;
     private final NullOutput nullOutput;
-    private final List<String> words;
 
-    public AnalysisGameFactory(WordListAnalyzer entropyBasedWordListAnalyzer, NullOutput nullOutput, List<String> words) {
+    public AnalysisGameFactory(WordListAnalyzer entropyBasedWordListAnalyzer, NullOutput nullOutput) {
         this.wordListAnalyzer = entropyBasedWordListAnalyzer;
         this.nullOutput = nullOutput;
-        this.words = words;
     }
 
     public Game get(String word) {
-        return new Game(new WordMatcher(), wordListAnalyzer, new SelfInputCollector(word), nullOutput, words);
+        return new Game(new WordMatcher(), wordListAnalyzer, new SelfInputCollector(word), nullOutput);
     }
 }

@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 @Component
 public class SysInputCollector implements InputCollector {
-    
+
     private final Scanner scanner;
     private final Output sysOutput;
 
@@ -14,30 +14,29 @@ public class SysInputCollector implements InputCollector {
         this.scanner = scanner;
         this.sysOutput = sysOutput;
     }
-
     @Override
-    public String collectGuess() {
-        String guess;
+    public String collectGuess(String input) {
+        String guess = scanner.nextLine();
 
-        while (true) {
-            sysOutput.send("Enter your guess");
-            guess = scanner.nextLine();
-            if (guess.matches("[0-9]+") || guess.matches("[a-z]{5}")) {
-                return guess;
-            } else if (guess.matches("[byg]{5}")) {
-                sysOutput.send("Looks like you entered the wordle response instead of a guess.");
-            } else {
-                sysOutput.send("input should be a five-letter word.");
-            }
+        if (guess.matches("[byg]{5}")) {
+            sysOutput.send("Looks like you entered a wordle response instead of a guess.");
+            return collectGuess(input);
+        } else if (guess.matches("[a-z]{5}")) {
+            return guess;
+        } else if (guess.isEmpty()) {
+            return input;
+        } else {
+            sysOutput.send("input should be a five-letter word.");
+            return collectGuess(input);
         }
+
     }
-    
 
     @Override
     public String collectWordleResponse(String guess) {
         sysOutput.send("enter response: g for green, y for yellow, b for black");
         String respnse;
-        
+
         while (true) {
             respnse = scanner.nextLine();
             if (!respnse.matches("[byg]{5}")) {

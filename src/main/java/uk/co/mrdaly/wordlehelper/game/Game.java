@@ -13,49 +13,56 @@ public class Game {
     private final WordListAnalyzer wordListAnalyzer;
     private final InputCollector sysInputCollector;
     private final Output sysOutput;
-    private final List<String> words;
 
 
     public Game(WordMatcher wordMatcher,
                 WordListAnalyzer wordListAnalyzer,
                 InputCollector sysInputCollector,
-                Output sysOutput,
-                List<String> words) {
+                Output sysOutput) {
         this.wordMatcher = wordMatcher;
         this.wordListAnalyzer = wordListAnalyzer;
         this.sysInputCollector = sysInputCollector;
         this.sysOutput = sysOutput;
-        this.words = words;
     }
 
-    public int run(String guessFromArgs) {
-        List<String> answers = words;
-        int guessCount = 0;
-        boolean run = true;
-        String guess = guessFromArgs;
-
-        while (run) {
-            guessCount++;
-            if (guess == null) {
-                guess = wordListAnalyzer.getNextBestGuess(words, ".....");
-            }
-            sysOutput.send("Guess is: " + guess);
-
-            final String response = sysInputCollector.collectWordleResponse(guess);
-
-            answers = wordMatcher.getMatches(answers, guess, response);
-            guess = wordListAnalyzer.getNextBestGuess(answers, ".....");
-
-
-            if (answers.size() <= 1) {
-                if (!answers.get(0).equals(guess)) {
-                    guessCount++;
-                }
-                guess = answers.get(0);
-                run = false;
-            }
+    public int run(String calculatedGuess, List<String> possibleAnswers, int iteration) {
+        if (possibleAnswers.size() == 1) {
+            sysOutput.send("The only possible answer remaining is: " + possibleAnswers.get(0) + ". This would score " + iteration);
+            return iteration;
         }
-        sysOutput.send("The only possible answer remaining is: " + guess + ". This would score " + guessCount);
-        return guessCount;
+
+        logRemainingWords(possibleAnswers);
+        String guess = collectNextGuess(calculatedGuess);
+        final String response = collectUserResponse(guess);
+
+        if (response.equals("ggggg")) {
+            sysOutput.send("nice one! You got the answer, " + guess + ", in " + iteration + " goes.");
+            return iteration;
+        }
+
+        List<String> remainingAnswers = wordMatcher.getMatches(possibleAnswers, guess, response);
+        String nextGuess = wordListAnalyzer.getNextBestGuess(remainingAnswers, ".....");
+        return run(nextGuess, remainingAnswers, iteration + 1);
+    }
+
+    private String collectUserResponse(String guess) {
+        sysOutput.send("Guess is: " + guess);
+        final String response = sysInputCollector.collectWordleResponse(guess);
+        return response;
+    }
+
+    private void logRemainingWords(List<String> possibleAnswers) {
+        if (possibleAnswers.size() > 5) {
+            sysOutput.send(possibleAnswers.size() + " possibilities remain!");
+        } else {
+            sysOutput.send("remaining words are: " + String.join(", ", possibleAnswers));
+        }
+    }
+
+    private String collectNextGuess(String calculatedGuess) {
+        sysOutput.send("The suggested guess is " + calculatedGuess);
+        sysOutput.send("Hit return to go with that, otherwise type your own suggestion");
+        return sysInputCollector.collectGuess(calculatedGuess);
+
     }
 }
