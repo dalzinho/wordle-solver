@@ -1,4 +1,4 @@
 wordlist:
   filenames:
-    - wordle-dictionary.txt
+#    - wordle-dictionary.txt
     - all-wordle.txt

@@ -1,10 +1,12 @@
 package uk.co.mrdaly.wordlehelper;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import uk.co.mrdaly.wordlehelper.game.Game;
+import uk.co.mrdaly.wordlehelper.guess.AnswerFacts;
 
 import java.util.List;
 
@@ -15,7 +17,7 @@ public class WordlehelperApplication implements CommandLineRunner {
     private final Game game;
     private final List<String> words;
 
-    public WordlehelperApplication(Game game, List<String> words) {
+    public WordlehelperApplication(Game game, @Qualifier("wordlists") List<String> words) {
         this.game = game;
         this.words = words;
     }
@@ -27,6 +29,6 @@ public class WordlehelperApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        game.run("crane", words, 1);
+        game.run("shell", new AnswerFacts(), words, 1);
     }
 }

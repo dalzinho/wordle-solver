@@ -1,6 +1,7 @@
 package uk.co.mrdaly.wordlehelper.analysis;
 
 import uk.co.mrdaly.wordlehelper.game.AnalysisGameFactory;
+import uk.co.mrdaly.wordlehelper.guess.AnswerFacts;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +25,7 @@ public class SelfPlayCallable implements Callable<Map<String, Integer>> {
         Map<String, Integer> map = new HashMap<>();
 
         for (String firstGuess : words) {
-            final int guessCount = analysisGameFactory.get(word).run(firstGuess, words, 1);
+            final int guessCount = analysisGameFactory.get(word).run(firstGuess, new AnswerFacts(), words, 1);
             map.put(firstGuess, guessCount);
         }
 

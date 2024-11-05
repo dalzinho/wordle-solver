@@ -8,8 +8,8 @@ import uk.co.mrdaly.wordlehelper.service.WordMatcher;
 import uk.co.mrdaly.wordlehelper.ui.InputCollector;
 import uk.co.mrdaly.wordlehelper.ui.Output;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -26,7 +26,7 @@ public class BeanConfiguration {
                              WordListAnalyzer entropyBasedWordListAnalyzer,
                              InputCollector sysInputCollector,
                              Output sysOutput) {
-        return new Game(wordMatcher, entropyBasedWordListAnalyzer, sysInputCollector, sysOutput);
+        return new Game(wordMatcher, entropyBasedWordListAnalyzer, new ArrayList<>(), sysInputCollector, sysOutput);
     }
 
     @Bean

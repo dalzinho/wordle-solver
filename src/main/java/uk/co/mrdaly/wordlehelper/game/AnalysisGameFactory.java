@@ -6,7 +6,7 @@ import uk.co.mrdaly.wordlehelper.service.WordMatcher;
 import uk.co.mrdaly.wordlehelper.ui.NullOutput;
 import uk.co.mrdaly.wordlehelper.ui.SelfInputCollector;
 
-import java.util.List;
+import java.util.ArrayList;
 
 @Component
 public class AnalysisGameFactory {
@@ -20,6 +20,6 @@ public class AnalysisGameFactory {
     }
 
     public Game get(String word) {
-        return new Game(new WordMatcher(), wordListAnalyzer, new SelfInputCollector(word), nullOutput);
+        return new Game(new WordMatcher(), wordListAnalyzer, new ArrayList<>(), new SelfInputCollector(word), nullOutput);
     }
 }

@@ -1,10 +1,10 @@
 package uk.co.mrdaly.wordlehelper.guess;
 
-public class CorrectGuess implements Guess {
+public class CorrectPositionFact implements PositionFact {
 
     private final String guess;
 
-    public CorrectGuess(String guess) {
+    public CorrectPositionFact(String guess) {
         this.guess = guess;
     }
 

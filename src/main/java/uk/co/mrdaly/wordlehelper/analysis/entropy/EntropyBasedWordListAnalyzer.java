@@ -1,6 +1,7 @@
 package uk.co.mrdaly.wordlehelper.analysis.entropy;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import uk.co.mrdaly.wordlehelper.analysis.WordListAnalyzer;
 import uk.co.mrdaly.wordlehelper.ui.SelfInputCollector;
@@ -17,12 +18,10 @@ public class EntropyBasedWordListAnalyzer implements WordListAnalyzer {
     private final List<String> words;
     private final List<String> alreadyGuessed;
 
-    public EntropyBasedWordListAnalyzer(List<String> words) {
+    public EntropyBasedWordListAnalyzer(@Qualifier("wordlists") List<String> words) {
         this.words = words;
         alreadyGuessed = new ArrayList<>();
     }
-
-
 
     @Override
     public String getNextBestGuess(List<String> possibilities, String wordRegex) {
@@ -68,12 +67,11 @@ public class EntropyBasedWordListAnalyzer implements WordListAnalyzer {
     }
 
     private int score(String s) {
-        int i = 0;
-        if (s.equals("y")) {
-            i = 5;
-        } else if (s.equals("g")) {
-            i = 13;
-        }
-        return i;
+        return switch (s) {
+            case "y" -> 5;
+            case "g" -> 13;
+
+            default -> 0;
+        };
     }
 }

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.BufferedReader;
@@ -27,6 +28,7 @@ public class WordConfig {
         return this.filenames;
     }
     @Bean
+    @Primary
     public List<String> wordlists() {
         return filenames.stream()
                 .map(this::loadWordlist)
@@ -39,11 +41,17 @@ public class WordConfig {
         try (InputStream inputStream = new ClassPathResource(filename).getInputStream();
              BufferedReader r = new BufferedReader(new InputStreamReader(inputStream))) {
             List<String> result = r.lines()
+                    .map(String::trim)
                     .collect(Collectors.toList());
             return Optional.of(result);
         } catch (IOException e) {
             log.error("error loading wordList", e);
         }
         return Optional.empty();
+    }
+
+    @Bean
+    public List<String> commonAnswers() {
+        return loadWordlist("wordle-dictionary.txt").get();
     }
 }
