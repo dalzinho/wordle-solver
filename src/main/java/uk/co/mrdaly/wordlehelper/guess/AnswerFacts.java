@@ -1,6 +1,7 @@
 package uk.co.mrdaly.wordlehelper.guess;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -13,6 +14,10 @@ public class AnswerFacts {
     private final Set<String> wrongGuesses;
 
     private final Set<String> goodGuesses;
+
+    @Getter
+    @Setter
+    private Map<String, Integer> letterAppearance;
 
     public AnswerFacts() {
         PositionFact[] g = new PositionFact[5];

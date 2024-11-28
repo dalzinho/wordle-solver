@@ -8,13 +8,13 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class WordMatcherTest {
+class AnswerFactsRefresherTest {
 
-    private WordMatcher wordMatcher;
+    private AnswerFactsRefresher wordMatcher;
 
     @BeforeEach
     void setup() {
-        wordMatcher = new WordMatcher();
+        wordMatcher = new AnswerFactsRefresher();
     }
     @Test
     void twoWordsFiltersOne_responseSizeIsOne() {

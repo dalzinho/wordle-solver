@@ -29,6 +29,6 @@ public class WordlehelperApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        game.run("shell", new AnswerFacts(), words, 1);
+        game.run("crane", new AnswerFacts(), words, 1);
     }
 }

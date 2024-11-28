@@ -2,11 +2,9 @@ package uk.co.mrdaly.wordlehelper.game;
 
 import org.springframework.stereotype.Component;
 import uk.co.mrdaly.wordlehelper.analysis.WordListAnalyzer;
-import uk.co.mrdaly.wordlehelper.service.WordMatcher;
+import uk.co.mrdaly.wordlehelper.service.AnswerFactsRefresher;
 import uk.co.mrdaly.wordlehelper.ui.NullOutput;
 import uk.co.mrdaly.wordlehelper.ui.SelfInputCollector;
-
-import java.util.ArrayList;
 
 @Component
 public class AnalysisGameFactory {
@@ -20,6 +18,6 @@ public class AnalysisGameFactory {
     }
 
     public Game get(String word) {
-        return new Game(new WordMatcher(), wordListAnalyzer, new ArrayList<>(), new SelfInputCollector(word), nullOutput);
+        return new Game(new AnswerFactsRefresher(), wordListAnalyzer, new SelfInputCollector(word), nullOutput);
     }
 }

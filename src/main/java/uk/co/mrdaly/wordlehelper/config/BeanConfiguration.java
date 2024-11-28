@@ -4,11 +4,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import uk.co.mrdaly.wordlehelper.analysis.WordListAnalyzer;
 import uk.co.mrdaly.wordlehelper.game.Game;
-import uk.co.mrdaly.wordlehelper.service.WordMatcher;
+import uk.co.mrdaly.wordlehelper.service.AnswerFactsRefresher;
 import uk.co.mrdaly.wordlehelper.ui.InputCollector;
 import uk.co.mrdaly.wordlehelper.ui.Output;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -22,16 +21,16 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public Game guessingGame(WordMatcher wordMatcher,
+    public Game guessingGame(AnswerFactsRefresher wordMatcher,
                              WordListAnalyzer entropyBasedWordListAnalyzer,
                              InputCollector sysInputCollector,
                              Output sysOutput) {
-        return new Game(wordMatcher, entropyBasedWordListAnalyzer, new ArrayList<>(), sysInputCollector, sysOutput);
+        return new Game(wordMatcher, entropyBasedWordListAnalyzer, sysInputCollector, sysOutput);
     }
 
     @Bean
-    public WordMatcher wordMatcher() {
-        return new WordMatcher();
+    public AnswerFactsRefresher wordMatcher() {
+        return new AnswerFactsRefresher();
     }
 
     @Bean
